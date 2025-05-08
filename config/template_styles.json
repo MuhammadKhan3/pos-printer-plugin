@@ -1,0 +1,52 @@
+[
+
+    {   
+        "currency_symbol":"$",
+        "size_1": 2, 
+        "size_2": 2,
+        "size_3": 2,
+        "size_4": 2,
+        "size_5": 2,
+        "size_6": 2,
+        "size_7": 2,
+        "size_8": 2,
+        "show_customer_info_kitchen": true,
+        "show_attribute_text_kitchen": true,
+        "logo_on_top": true,
+        "payment_express_receipt": true,
+        "payment_express_tip": false,
+        "regular_tip": true,
+        "show_customer_info": true,
+        "show_item_instructions_on_check": true,
+        "show_paid_status_on_check": true,
+        "show_separator_line": true,
+        "show_other_stations": true,
+        "show_other_stations_extras": false,
+        "show_bottom_delivery_info": true,
+        "show_price_column": true,
+        "show_item_extras": true,
+        "show_cash_cc_amounts": true,
+        "bottom_business_name": false,
+        "kitchen_red_font": "B",
+        "top_business_name": true,
+        "cut_attribute": false,
+        "receipt_top_gap": "",
+        "receipt_top_gap_counter": "",
+        "tab_qty": "",
+        "tab_item": " - ",
+        "tab_item_2": "",
+        "tab_extras": "",
+        "item_new_line": "",
+        "item_separator__": "------------------------",
+        "item_separator": "",
+        "show_split_section": false,
+        "hold_id_qr_local": false,
+        "show_orders_dayclose": false,
+        "show_sold_items_dayclose": true,
+        "show_qr_payment": false,
+        "separate_tip_receipts": true
+    }
+
+]
+
+

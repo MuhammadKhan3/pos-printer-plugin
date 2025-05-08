@@ -1,0 +1,42 @@
+[
+
+    {   
+        "currency_symbol":"$",
+        "size_1": 1, 
+        "size_2": 2,
+        "size_3": 1,
+        "size_4": 2,
+        "size_5": 1,
+        "size_6": 1,
+        "size_7": 1,
+        "size_8": 2,
+        "logo_on_top": true,
+        "payment_express_receipt": true,
+        "show_customer_info": true,
+        "show_item_instructions_on_check": true,
+        "show_paid_status_on_check": true,
+        "show_separator_line": true,
+        "show_other_stations": true,
+        "show_bottom_delivery_info": true,
+        "show_price_column": true,
+        "show_item_extras": true,
+        "show_cash_cc_amounts": true,
+        "bottom_business_name": false,
+        "kitchen_red_font": "B",
+        "payment_express_tip": true,
+        "top_business_name": true,
+        "cut_attribute": true,
+        "receipt_top_gap": "",
+        "receipt_top_gap_counter": "",
+        "tab_qty": "",
+        "tab_item": "- ",
+        "tab_item_2": "",
+        "tab_extras": "",
+        "item_new_line": "",
+        "item_separator": "",
+        "item_separator__": "----------------"  
+    }
+
+]
+
+

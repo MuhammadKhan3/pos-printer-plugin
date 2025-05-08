@@ -1,0 +1,11 @@
+package support
+npm version 7.15.1
+node version v16.3.0
+
+steps of usb configuration 
+1.Printer config file change the "printer_conn_type": "usb",
+2.In zadig-2.8 setup install the libusb-win32 for the usb supporting.
+
+
+ips_setting
+url:http://localhost:7001

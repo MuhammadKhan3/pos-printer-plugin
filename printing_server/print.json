@@ -1,0 +1,32 @@
+[
+    {
+        "menuId": "1",
+        "seatNo": 0,
+        "restId": "76",
+        "uniqueId": "597999",
+        "menuItem": "Traditional",
+        "image": "",
+        "quantity": 1,
+        "itemInstructions": null,
+        "basePrice": "8.95",
+        "totalPrice": 8.95,
+        "menuExtrasSelected": [],
+        "reward": false,
+        "tax_enabled": "true",
+        "tax": 12,
+        "discount_type": "perc",
+        "discount_value": 0,
+        "hasDeal": "false",
+        "attribute_id": "0",
+        "unit_text": "",
+        "additional_tax": [],
+        "item_deposit": 0,
+        "tax_inclusive": 0,
+        "deposit": 0,
+        "CalculatedDiscount": 0,
+        "CalculatedTax": "1.07",
+        "isSelected": true,
+        "attributeName": "Default"
+    },
+    null
+]

@@ -1,0 +1,21 @@
+{
+    "apps" : [
+            {
+                "name"        : "printing",
+                "script"      : "../printing_server/index.js"
+            },
+            {
+                "name"        : "cart",
+                "script"      : "../cart_server/cart_share.js"
+            	
+            },
+            {
+                "name_"        : "weight",
+                "script_"      : "../weight_server/weight_client.js"
+            },
+            {
+                "name_"        : "offline",
+                "script_"      : "../offline_server/index.js"
+            }
+    ]
+}

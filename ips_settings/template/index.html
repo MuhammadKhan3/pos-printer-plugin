@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ips Settings</title>
+    <link rel="stylesheet" href="ips_style.css">
+    <link rel="icon" href="https://s3.amazonaws.com/pocketsystems.com/Logos/favicon-black.png" >
+</head>
+<body>
+<!-- Form-->
+<div class="form">
+  <div class="logo-container">
+    <img src="logo.png" class="logo"/>
+  </div>
+
+  <span class="loader" id="loader"></span>
+
+    <div class="form-toggle"></div>
+      <div class="form-panel one">
+        <div class="form-header">
+          <h1>Printer Ips Setting</h1>
+        </div>
+        <div class="form-content">
+          <div class="btn-container">
+            <button class="trigger" onclick="updatePrinters()" data-modal-trigger="trigger-1"><i class="fa fa-fire" aria-hidden="true"></i>Update</button>
+          </div>
+          
+          <form id="taskForm" class="form-container">
+            
+          
+          </form>
+          <div class="btn-container">
+             <button class="trigger" onclick="updatePrinters()" data-modal-trigger="trigger-1"><i class="fa fa-fire" aria-hidden="true"></i>Update</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- modal -->
+  <div class="modal" data-modal="trigger-1">
+    <article class="content-wrapper">
+      <button class="close"></button>
+      <header class="modal-header">
+        <h2>Updated Successfully</h2>
+      </header>
+      <div class="content">
+        
+        <div style="display: flex; flex-direction: column;">
+          <p id="ip-upd">Ips Settings updated </p> 
+          <p id="alive-ip"></p>
+          <p id="output-ip"></p>
+       </div>
+
+      </div>
+    </article>
+  </div>
+
+
+
+  <div class="modal" data-modal="trigger-3">
+    <article class="content-wrapper" style="padding: 1rem;">
+      <header class="modal-header">
+        <h2>IPs Fetch Successfully</h2>
+      </header>
+      <button class="close"></button>
+
+      <div class="content" style="width: 100%;">
+        
+        <div id="ips" style="width: 100%;" class="overflowContainer" style="display: flex; flex-direction: column;">
+        </div>
+
+      </div>
+    </article>
+  </div>
+  <!-- close modal -->
+  <script src="jquery.min.js"></script>
+  <script src="ips_script.js"></script>
+</body>
+</html>

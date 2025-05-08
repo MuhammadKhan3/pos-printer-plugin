@@ -1,0 +1,26 @@
+{
+  "cart_version": "/cart_server",
+  "config_version": [
+    "/config/proxy.config.json",
+    "/config/template_styles.json",
+    "/config/weight_config.json",
+    "/config/printer_config.json",
+    "/config/staff_config.json"
+  ],
+  "extra_version": "/extra_files",
+  "kds_version": "/kds_orders",
+  "offline_version": [
+    "/offline_server/controllers",
+    "/offline_server/routes",
+    "/offline_server/index.js"
+  ],
+  "templates_version": "/printer_templates",
+  "server_version": "/printing_server",
+  "startup_version": "/startup_files",
+  "weight_version": "/weight_server",
+  "ping_version": "/ping_check",
+  "pos_version": "",
+  "packagejson_version": "/package.json",
+  "poll_version": "",
+  "sql_version": "/update_poll/db.sql"
+}

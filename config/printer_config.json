@@ -1,0 +1,73 @@
+{
+  "receipt": "",
+  "kitchen_printer_template": "1",
+  "counter_printer_template": "1",
+  "multi_kitchen_printer_template": "1",
+  "kitchen_printer_template_style": "1",
+  "counter_printer_template_style": "1",
+  "multi_kitchen_printer_template_style": "1",
+  "offline_server_ip": "127.0.0.1",
+  "printer_type": "epson",
+  "printer_conn_type": "network",
+  "counter_printer_ips": [
+    {
+      "id": 1,
+      "ip": "192.168.18.245",
+      "print": true,
+      "k_id": 158,
+      "cash_drawer_path": ""
+    },{
+      "id": 1,
+      "ip": "192.168.18.245",
+      "print": true,
+      "k_id": "dev1",
+      "cash_drawer_path": "/dev/tty.Bluetooth-Incoming-Port "
+    },{
+      "id": 1,
+      "ip": "192.168.18.245",
+      "print": true,
+      "k_id": "teresa",
+      "cash_drawer_path": "COM7"
+    }
+  ],
+  "kitchen_printer_ips": [
+    {
+      "id": 1,
+      "ip": "192.168.18.245",
+      "print": true,
+      "k_id": 158
+    },{
+      "id": 1,
+      "ip": "192.168.18.245",
+      "print": true,
+      "k_id": "dev1"
+    },{
+      "id": 1,
+      "ip": "192.168.18.245",
+      "print": true,
+      "k_id": "teresa"
+    },
+    {
+      "id": 1,
+      "ip": "192.168.18.245",
+      "print": true,
+      "k_id": 158
+    },{
+      "id": 1,
+      "ip": "192.168.18.245",
+      "print": true,
+      "k_id": "dev1"
+    },{
+      "id": 1,
+      "ip": "192.168.18.245",
+      "print": true,
+      "k_id": "123"
+    }
+  ],
+  "multi_kitchen_printer_ips": [
+  
+  ],
+  "label_printer_ips": [
+   
+  ]
+}

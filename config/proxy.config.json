@@ -1,0 +1,22 @@
+{
+    "kds":{
+        "use":"self",
+        "remote_ip":"http://localhost:6988"
+    },
+    "cart":{
+        "use":"self",
+        "remote_ip":"http://localhost:6000"
+    },
+    "weight":{
+        "use":"self",
+        "remote_ip":"http://localhost:8000"
+    },
+    "printing_server":{
+        "use":"self",
+        "remote_ip":"http://localhost:9000"
+    },
+    "offline_server":{
+        "use":"self",
+        "remote_ip":"http://localhost:5000"
+    }
+}
