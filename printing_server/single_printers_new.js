@@ -5,7 +5,7 @@ const net = require("net");
 const ping = require("ping");
 
 const kitchen_printer_template_1 = require("../printer_templates/kitchen/kitchen_printer_template_1");
-const counter_printer_template_1 = require("../printer_templates/counter/counter_printer_template_1");
+const counter_printer_template_1 = require("../printer_templates/counter/counter_printer_template_1.js");
 const counter_printer_template_2 = require("../printer_templates/counter/counter_printer_template_2");
 const counter_printer_template_3 = require("../printer_templates/counter/counter_printer_template_3");
 
