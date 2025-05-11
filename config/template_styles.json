@@ -12,7 +12,7 @@
         "size_8": 2,
         "show_customer_info_kitchen": true,
         "show_attribute_text_kitchen": true,
-        "logo_on_top": true,
+        "logo_on_top": false,
         "payment_express_receipt": true,
         "payment_express_tip": false,
         "regular_tip": true,
