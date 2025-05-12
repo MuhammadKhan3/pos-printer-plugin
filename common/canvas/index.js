@@ -34,7 +34,7 @@ function orderTypeCanvas (order_data){
         ctx.fillStyle = '#FFFFFF';
         ctx.fillRect(0, 60, PRINTER_WIDTH, 40); // Start at y=100
         ctx.fillStyle = '#000000';
-        ctx.font = '200 25px Arial';
+        ctx.font = '100 25px Arial';
         ctx.fillText(`Customer Name:`, 10, 80); // Adjusted Y position
         ctx.font = 'bold 25px Arial';
         ctx.fillText(order_data.customer_name, 210, 80);

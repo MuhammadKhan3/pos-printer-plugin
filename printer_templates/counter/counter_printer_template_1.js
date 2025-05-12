@@ -434,9 +434,11 @@ function print_handler(printer_conn, order_data, date_time, template_style) {
         if (order_data?.instructions?.business_pricing_type === "double") {
 
           printer_conn
-            .size(1, 1)
             .style("r")
+            .size(1,1)
             .text(line1)
+            .size(1, 2)
+            .text("")
             .style("b")
             .tableCustom([
               {
@@ -450,7 +452,8 @@ function print_handler(printer_conn, order_data, date_time, template_style) {
                 align: "RIGHT",
                 width: 0.15,
               },
-            ]);
+            ])
+
         } else {
           printer_conn
             .size(1, 1)
@@ -728,6 +731,7 @@ function print_handler(printer_conn, order_data, date_time, template_style) {
     });
 
     printer_conn
+    .size(1,1)
     .text(line1)
 
     if (order_data?.instructions?.business_pricing_type === "double") {
@@ -735,9 +739,8 @@ function print_handler(printer_conn, order_data, date_time, template_style) {
         .size(1, 1)
         .text("")
         .style("r")
-        .style("b")
         .tableCustom([
-          { text: "Subtotal:    ", align: "RIGHT", width: 0.65 },
+          { text: "Subtotal    ", align: "RIGHT", width: 0.65 },
           {text:`${currency_symbol}${handleUndefined(order_data?.instructions?.subTotal)}`,align:'LEFT',width:0.15},
           {
             text: `${currency_symbol}${handleUndefined(order_data?.instructions?.card_subTotal)}`,
@@ -1228,9 +1231,8 @@ function print_handler(printer_conn, order_data, date_time, template_style) {
         printer_conn
           .size(1, 1)
           .style("r")
-          .style("b")
           .tableCustom([
-            { text: "Tax:    ", align: "RIGHT", width: 0.65 },
+            { text: "Tax    ", align: "RIGHT", width: 0.65 },
             {text:`${currency_symbol}${handleUndefined(order_data.instructions.tax)}`,width:0.15},
             {
               text: `${currency_symbol}${handleUndefined(order_data.instructions.card_tax)}`,
@@ -1301,7 +1303,6 @@ function print_handler(printer_conn, order_data, date_time, template_style) {
     }
 
 
-    printer_conn.text('');
 
 
     if (
@@ -1540,7 +1541,7 @@ function print_handler(printer_conn, order_data, date_time, template_style) {
           .size(1, 1)
           .style("r")
           .tableCustom([
-            { text: "RESTAURANT Total:   ", align: "RIGHT", width: "0.65" ,      style: null },
+            { text: "RESTAURANT Total    ", align: "RIGHT", width: "0.65" ,      style: null },
             {text:currency_symbol +
                 handleUndefined(order_data.instructions.cash_Total),align:'LEFT',width:0.15,style: "B"},
             {
@@ -1605,7 +1606,7 @@ function print_handler(printer_conn, order_data, date_time, template_style) {
     ) {
       printer_conn
         .tableCustom([
-          { text: "Change Due:  ", align: "RIGHT", width: "0.65" },
+          { text: "Change Due    ", align: "RIGHT", width: "0.65" },
           {
             text: currency_symbol + handleUndefined(order_data.balance),
             align: "LEFT",
