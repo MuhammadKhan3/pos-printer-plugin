@@ -1,8 +1,7 @@
 const { formatDate, formatTime } = require('./dateUtils');
-const {orderTypeCanvas
-}=require('./canvas')
+const { generateCanvas,generatePosReceipt }=require('./canvas')
 module.exports = {
     formatDate,
     formatTime,
-    orderTypeCanvas
-  };
+    generateCanvas,generatePosReceipt
+   };

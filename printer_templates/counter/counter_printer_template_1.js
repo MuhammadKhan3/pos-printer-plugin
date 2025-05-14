@@ -8,8 +8,7 @@ const path = require("path");
 const template_styles = require("../../config/template_styles.json");
 const fs = require('fs')
 const { formatDate, formatTime } = require("../../common/dateUtils");
-const { createCanvas } = require('canvas');
-const {orderTypeCanvas}=require('../../common/canvas/index')
+const {  generateCanvas, generatePosReceipt } = require("../../common");
 
 
 module.exports = {
@@ -198,8 +197,8 @@ function print_handler(printer_conn, order_data, date_time, template_style) {
   }
 
 
-  orderTypeCanvas(order_data)
-
+  generateCanvas(order_data);
+  generatePosReceipt(order_data)
 
   // order_data.business_info.name = 'American Restaurant LLC';
 
@@ -235,11 +234,14 @@ function print_handler(printer_conn, order_data, date_time, template_style) {
       order_data.pos_receipt_number != undefined &&
       order_data.pos_receipt_number != ""
     ) {
-      printer_conn
-        .align("ct")
-        .size(2, 2)
-        .style("b")
-        .text("Chk " + order_data.pos_receipt_number);
+                        const image = await loadImageAsync(path.join(__dirname, "../../common/canvas/labels/pos-receipt-no.png"));
+          printer_conn.align('ct').image(image)
+
+      // printer_conn
+      //   .align("ct")
+      //   .size(2, 2)
+      //   .style("b")
+      //   .text("Chk " + order_data.pos_receipt_number);
     }
 
     printer_conn.font("a").align("ct").size(2, 2);
@@ -1915,7 +1917,7 @@ function print_handler(printer_conn, order_data, date_time, template_style) {
         .style("r")
         .size(1, 1);
 
-                  const image = await loadImageAsync(path.join(__dirname, "../../common/canvas/labels/orderTypes-design.png"));
+                  const image = await loadImageAsync(path.join(__dirname, "../../common/canvas/labels/orderTypes-canvas.png"));
           printer_conn.align('ct').image(image)
 
       // if (order_data.instructions.orderTypeLabel) {
