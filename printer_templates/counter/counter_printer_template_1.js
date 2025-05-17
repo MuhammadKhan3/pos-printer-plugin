@@ -585,6 +585,7 @@ function print_handler(printer_conn, order_data, date_time, template_style) {
           show_item_instructions_on_check == true
         ) {
           printer_conn
+            .size(1,1)
             .style("b")
             .text("Instructions " + order_info.itemInstructions);
         }
@@ -961,24 +962,16 @@ function print_handler(printer_conn, order_data, date_time, template_style) {
         .style("r")
         .style("b")
         .tableCustom([
-          { text: "Delivery Fee:", align: "LEFT", width: "0.40" },
-          // { text: "", align: "RIGHT", width: "0.05" },
-          // {text: "", align: "RIGHT", width: "0.25"},
-          /*  {
-              text: "" + handleUndefined(order_data.instructions.delivery_fee),
-              align: "RIGHT",
-              width: "0.25",
-            },*/
+          { text: "Delivery Fee    ", align: "RIGHT", width: 0.65 },
           {
-            text: '   ',
-            align: "CENTER",
-            width: "0.10",
+            text: `${currency_symbol}${handleUndefined(order_data.instructions.delivery_fee)}`,
+            align: "LEFT",
+            width: 0.15,
           },
           {
-            text: handleUndefined(order_data.instructions.delivery_fee) + ' | ' +
-              + handleUndefined(order_data.instructions.card_delivery_fee),
-            align: "CENTER",
-            width: "0.50",
+            text: `${currency_symbol}${handleUndefined(order_data.instructions.card_delivery_fee)}`,
+            align: "RIGHT",
+            width: 0.15,
           },
         ]);
     } else if (
@@ -1791,23 +1784,23 @@ function print_handler(printer_conn, order_data, date_time, template_style) {
     //             .style('b')
     //             .text(temp_order_id_split)
 
-    if (
-      order_data.table_name &&
-      order_data.table_name != "" &&
-      order_data.table_name.trim() != "<>" &&
-      order_data?.table_name?.includes("undefined") !== true
-    ) {
-      if (order_data.fireLine != undefined && order_data.fireLine == true) {
-        fire_line = "FIRE -> ";
-      } else {
-        fire_line = "";
-      }
+    // if (
+    //   order_data.table_name &&
+    //   order_data.table_name != "" &&
+    //   order_data.table_name.trim() != "<>" &&
+    //   order_data?.table_name?.includes("undefined") !== true
+    // ) {
+    //   if (order_data.fireLine != undefined && order_data.fireLine == true) {
+    //     fire_line = "FIRE -> ";
+    //   } else {
+    //     fire_line = "";
+    //   }
 
-      printer_conn
-        .size(2, 2)
-        .align("ct")
-        .text(fire_line + "" + order_data.table_name);
-    }
+    //   printer_conn
+    //     .size(2, 2)
+    //     .align("ct")
+    //     .text(fire_line + "" + order_data.table_name);
+    // }
 
     printer_conn.size(1, 1);
 
@@ -1877,70 +1870,70 @@ function print_handler(printer_conn, order_data, date_time, template_style) {
       //   //   .size(1, 1);
       // }
 
-      if (order_data.refund == undefined || !order_data.refund) {
-        printer_conn.size(1, 1);
+      // if (order_data.refund == undefined || !order_data.refund) {
+      //   printer_conn.size(1, 1);
 
-        if (order_data.instructions.Type == "Delivery") {
-          printer_conn.size(1, 2);
+      //   if (order_data.instructions.Type == "Delivery") {
+      //     printer_conn.size(1, 2);
 
-          printer_conn
+      //     printer_conn
 
-            .align("ct")
-            .style("r")
-            .text("Delivery Address: " + order_data.payment_info.address)
-            .marginBottom(20);
+      //       .align("ct")
+      //       .style("r")
+      //       .text("Delivery Address: " + order_data.payment_info.address)
+      //       .marginBottom(20);
 
-          printer_conn.style("r").align("ct");
-          if (order_data.payment_info.order_date) {
-            printer_conn.text(
-              order_data.payment_info.order_date +
-              " " +
-              order_data.payment_info.order_time
-            );
-          }
+      //     printer_conn.style("r").align("ct");
+      //     if (order_data.payment_info.order_date) {
+      //       printer_conn.text(
+      //         order_data.payment_info.order_date +
+      //         " " +
+      //         order_data.payment_info.order_time
+      //       );
+      //     }
 
-          printer_conn.size(1, 1);
-        } else if (order_data.instructions.Type == "Pickup") {
-          printer_conn.style("r").align("ct");
-          if (order_data.scheduled_time) {
-            printer_conn.text(order_data.scheduled_time);
-          } else if (order_data.payment_info.order_date) {
-            printer_conn
+      //     printer_conn.size(1, 1);
+      //   } else if (order_data.instructions.Type == "Pickup") {
+      //     printer_conn.style("r").align("ct");
+      //     if (order_data.scheduled_time) {
+      //       printer_conn.text(order_data.scheduled_time);
+      //     } else if (order_data.payment_info.order_date) {
+      //       printer_conn
 
-              .style("r")
-              .align("ct")
+      //         .style("r")
+      //         .align("ct")
 
-              .text(
-                order_data.payment_info.order_date +
-                " " +
-                order_data.payment_info.order_time
-              );
-          } else {
-            printer_conn
-              .style("r")
-              .align("ct")
+      //         .text(
+      //           order_data.payment_info.order_date +
+      //           " " +
+      //           order_data.payment_info.order_time
+      //         );
+      //     } else {
+      //       printer_conn
+      //         .style("r")
+      //         .align("ct")
 
-              .text(order_data.payment_info.order_time);
-          }
-        }
+      //         .text(order_data.payment_info.order_time);
+      //     }
+      //   }
 
-        if (order_data.instructions.date_of_event) {
-          printer_conn
-            .size(1, 2)
-            .style("b")
-            .align("ct")
-            .text(order_data.instructions.date_of_event);
-        }
-      }
+      //   if (order_data.instructions.date_of_event) {
+      //     printer_conn
+      //       .size(1, 2)
+      //       .style("b")
+      //       .align("ct")
+      //       .text(order_data.instructions.date_of_event);
+      //   }
+      // }
 
       printer_conn.size(1, 1);
       // if (order_data.customer_name) {
       //   printer_conn.text(order_data.customer_name);
       // }
 
-      if (order_data.customer_phone) {
-        printer_conn.text(order_data.customer_phone);
-      }
+      // if (order_data.customer_phone) {
+      //   printer_conn.text(order_data.customer_phone);
+      // }
     }
 
     if (order_data.reprint != undefined && order_data.reprint == true && order_data?.finalize !== true) {
@@ -2033,9 +2026,16 @@ function print_handler(printer_conn, order_data, date_time, template_style) {
       printer_conn.text("Station: " + order_data.pos_station_name);
     }
 
-    printer_conn
+    if(order_data.payment_info.order_id!==undefined && order_data.payment_info.order_id!=="" && order_data.payment_info.order_id!=="undefined" && order_data.payment_info.order_id!==null && order_data.payment_info.order_id!=="null"){
+     printer_conn
       .size(1, 1)
       .text("Ticket Closed date-time: " + date_time.date + " " + date_time.time);
+    }else{
+           printer_conn
+      .size(1, 1)
+      .text("Ticket Print date-time: " + date_time.date + " " + date_time.time);
+
+    }
 
     if (
       order_data.business_info &&
@@ -2066,7 +2066,7 @@ function print_handler(printer_conn, order_data, date_time, template_style) {
       .size(1, 1)
 
       .align("ct")
-      .text("Powered by Pocket Systems, LLC.")
+      .text("Powered by Nova Tech, LLC.")
       .text("");
 
 
