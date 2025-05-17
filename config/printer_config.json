@@ -12,19 +12,19 @@
   "counter_printer_ips": [
     {
       "id": 1,
-      "ip": "192.168.18.245",
+      "ip": "192.168.123.100",
       "print": true,
       "k_id": 158,
       "cash_drawer_path": ""
     },{
       "id": 1,
-      "ip": "192.168.18.245",
+      "ip": "192.168.123.100",
       "print": true,
       "k_id": "dev1",
       "cash_drawer_path": "/dev/tty.Bluetooth-Incoming-Port "
     },{
       "id": 1,
-      "ip": "192.168.18.245",
+      "ip": "192.168.123.100",
       "print": true,
       "k_id": "teresa",
       "cash_drawer_path": "COM7"
@@ -33,33 +33,33 @@
   "kitchen_printer_ips": [
     {
       "id": 1,
-      "ip": "192.168.18.245",
+      "ip": "192.168.123.100",
       "print": true,
       "k_id": 158
     },{
       "id": 1,
-      "ip": "192.168.18.245",
+      "ip": "192.168.123.100",
       "print": true,
       "k_id": "dev1"
     },{
       "id": 1,
-      "ip": "192.168.18.245",
+      "ip": "192.168.123.100",
       "print": true,
       "k_id": "teresa"
     },
     {
       "id": 1,
-      "ip": "192.168.18.245",
+      "ip": "192.168.123.100",
       "print": true,
       "k_id": 158
     },{
       "id": 1,
-      "ip": "192.168.18.245",
+      "ip": "192.168.123.100",
       "print": true,
       "k_id": "dev1"
     },{
       "id": 1,
-      "ip": "192.168.18.245",
+      "ip": "192.168.123.100",
       "print": true,
       "k_id": "123"
     }
