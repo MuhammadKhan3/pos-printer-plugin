@@ -36,7 +36,6 @@ function generateCanvas (order_data){
         ctx.fillRect(0, 60, PRINTER_WIDTH, 40); // Start at y=100
         ctx.fillStyle = '#000000';
         ctx.font = '100 25px Arial';
-        ctx.fillText(`Customer Name:`, 10, 80); // Adjusted Y position
         ctx.font = 'bold 25px Arial';
         ctx.fillText(order_data.customer_name, 210, 80);
     }
@@ -64,12 +63,12 @@ function generatePosReceipt (order_data){
     // DELIVERY section (increase height to 100px)
     const orderTypeHorizontalPosition=((PRINTER_WIDTH/2)-100)
         ctx.fillStyle = '#000000';
-        ctx.fillRect(0, 0, PRINTER_WIDTH, 60); // Increased from 40 to 100
+        ctx.fillRect(0, 0, PRINTER_WIDTH, 70); // Increased from 40 to 100
         ctx.fillStyle = '#FFFFFF';
         ctx.font = 'bold 50px Arial';
         ctx.textAlign = 'CENTER';
         ctx.textBaseline = 'middle';
-        ctx.fillText("Chk " + order_data.pos_receipt_number,orderTypeHorizontalPosition , 30); // Centered vertically in 100px
+        ctx.fillText("Chk " + order_data.pos_receipt_number,orderTypeHorizontalPosition , 40); // Centered vertically in 100px
 
         // Save canvas to PNG file
     const outputPath = path.join(__dirname,'labels', 'pos-receipt-no.png');    
