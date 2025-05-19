@@ -3,7 +3,7 @@ const fs = require("fs");
 const path = require("path");
 
 function generateCanvas(order_data) {
-  const PRINTER_WIDTH = 570;
+  const PRINTER_WIDTH = 575;
   let canvas = null;
   let ctx = null;
   console.log(order_data.instructions.orderTypeLabel.trim().toLowerCase());
@@ -29,7 +29,7 @@ function generateCanvas(order_data) {
       ctx.fillStyle = "#FFFFFF";
       ctx.fillRect(0, 60, PRINTER_WIDTH, 40); // Start at y=100
       ctx.fillStyle = "#000000";
-      ctx.font = "500 25px Arial";
+      ctx.font = "500 35px Arial";
       ctx.fillText(order_data.customer_name, orderTypeHorizontalPosition, 80);
     }
     ctx.strokeStyle = "#000000";
@@ -62,14 +62,14 @@ function generateCanvas(order_data) {
     ctx.fillStyle = "#FFFFFF";
     ctx.fillRect(0, 60, PRINTER_WIDTH, 40);
     ctx.fillStyle = "#000000";
-    ctx.font = "500 30px Arial";
+    ctx.font = "500 35px Arial";
     ctx.fillText(fire_line + "Table  " + order_data.table_name, orderTypeHorizontalPosition, 80);
 
     // Customer name section
     ctx.fillStyle = "#FFFFFF";
     ctx.fillRect(0, 120, PRINTER_WIDTH, 40);
     ctx.fillStyle = "#000000";
-    ctx.font = "500 25px Arial";
+    ctx.font = "500 35px Arial";
 
     ctx.fillText(order_data.customer_name, orderTypeHorizontalPosition, 110);
     ctx.strokeStyle = "#000000";
@@ -113,7 +113,7 @@ function generateCanvas(order_data) {
 
     // Print each line
     ctx.fillStyle = "#000000";
-    ctx.font = "500 25px Arial";
+    ctx.font = "500 35px Arial";
     ctx.textAlign = "CENTER";
     ctx.textBaseline = "top";
 
@@ -137,15 +137,15 @@ function generateCanvas(order_data) {
 }
 
 function generatePosReceipt(order_data) {
-  const PRINTER_WIDTH = 570;
-  const canvasHeight = 100;
+  const PRINTER_WIDTH = 575;
+  const canvasHeight = 55;
   const canvas = createCanvas(PRINTER_WIDTH, canvasHeight);
   const ctx = canvas.getContext("2d");
 
   // DELIVERY section (increase height to 100px)
   const orderTypeHorizontalPosition = PRINTER_WIDTH / 2 - 100;
   ctx.fillStyle = "#000000";
-  ctx.fillRect(0, 0, PRINTER_WIDTH, 70); // Increased from 40 to 100
+  ctx.fillRect(0, 0, PRINTER_WIDTH, 55); // Increased from 40 to 100
   ctx.fillStyle = "#FFFFFF";
   ctx.font = "bold 50px Arial";
   ctx.textAlign = "CENTER";
@@ -153,7 +153,7 @@ function generatePosReceipt(order_data) {
   ctx.fillText(
     "Chk " + order_data.pos_receipt_number,
     orderTypeHorizontalPosition,
-    40
+    27
   ); // Centered vertically in 100px
 
   // Save canvas to PNG file
