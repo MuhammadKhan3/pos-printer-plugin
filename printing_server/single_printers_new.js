@@ -121,7 +121,8 @@ async function printer_start(print_data) {
          
          }
          else{
-          drawer_serial_port(req?.k_id, printer_meta?.counter_printer_ips);
+          console.log('=================print_data?.k_id=====================',print_data?.k_id)
+          drawer_serial_port(print_data?.k_id, printer_meta?.counter_printer_ips);
          
       }
        

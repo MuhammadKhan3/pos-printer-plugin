@@ -202,12 +202,10 @@ function print_handler(printer_conn, order_data, date_time, template_style) {
   generatePosReceipt(order_data)
 
   // order_data.business_info.name = 'American Restaurant LLC';
-
   setTimeout(async function () {
 
 
 
-    console.log('=========order_data.business_info.name=================',order_data.business_info.name,order_data.business_info.address)
     if (
       order_data.business_info &&
       template_styles[template_style - 1].top_business_name != undefined &&
@@ -239,7 +237,7 @@ function print_handler(printer_conn, order_data, date_time, template_style) {
       printer_conn.align('ct').image(image)
     }
 
-    printer_conn.font("a").align("ct").size(2, 2);
+    // printer_conn.font("a").align("ct").size(2, 2);
 
     if (
       order_data.instructions.giftcard &&
@@ -341,7 +339,7 @@ function print_handler(printer_conn, order_data, date_time, template_style) {
       printer_conn.print('Gift Card: ');
 
       printer_conn.style('B');
-      printer_conn.println(gift_card_amount);
+      printer_conn.println(`$${handleUndefined(gift_card_amount)}`);
 
     }
     if (order_data.instructions.Points) {
@@ -1219,7 +1217,7 @@ function print_handler(printer_conn, order_data, date_time, template_style) {
             width: 0.15,
           },
           {
-            text:  `-${currency_symbol}handleUndefined(gift_card_amount)`,
+            text:  `-${currency_symbol}${handleUndefined(gift_card_amount)}`,
             align: "RIGHT",
             width: 0.15,
           },
@@ -1651,7 +1649,6 @@ function print_handler(printer_conn, order_data, date_time, template_style) {
           "Paid by Card: " +
           handleUndefined(order_data.cc_amounts.credit_amount)
         )
-        .text("s");
 
       // if (order_data.instructions.cash_discount) {
       //     printer_conn
@@ -1824,20 +1821,19 @@ function print_handler(printer_conn, order_data, date_time, template_style) {
         }
       }
 
+      const cleaned = order_data.rawText.replace(/\n$/, '');
       printer_conn
         .size(1, 1)
         // .text(line1)
         .text("")
         .align("ct")
         // .text('Credit Card Payment Receipt')
-        .text(order_data.rawText);
+        .text(cleaned);
     }
 
     if (show_bottom_delivery_info === true) {
       printer_conn
         .size(1, 1)
-        // .text(line1)
-        .text("")
         .align("ct")
         .style("r")
         .size(1, 1);
@@ -2190,8 +2186,8 @@ function giftCardTemplate(printer_conn, order_data) {
     .table(["------------------------------------------------"])
     .style("b")
     .tableCustom([
-      { text: "Giftcard", align: "LEFT", width: 0.45 },
-      { text: "Amount", align: "RIGHT", width: 0.45 },
+      { text: "Giftcard", align: "LEFT", width: 0.65 },
+      { text: "Amount", align: "RIGHT", width: 0.30 },
 
       // { text: "image", align:"RIGHT", width:0.20 },
     ]);
@@ -2205,12 +2201,13 @@ function giftCardTemplate(printer_conn, order_data) {
             ? order_data.giftcard[i].category_name
             : order_data.giftcard[i].giftcard_qr,
         align: "LEFT",
-        width: 0.45,
+        width: 0.65,
       },
-      { text: order_data.giftcard[i].amount, align: "RIGHT", width: 0.45 },
+      { text: order_data.giftcard[i].amount, align: "RIGHT", width: 0.30 },
       // { text: '', align:"RIGHT", width:0.20 }
     ]);
   }
+  printer_conn.text('')
 }
 
 function handleUndefined(value) {

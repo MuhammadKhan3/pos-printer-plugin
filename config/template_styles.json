@@ -12,7 +12,7 @@
         "size_8": 2,
         "show_customer_info_kitchen": true,
         "show_attribute_text_kitchen": true,
-        "logo_on_top": true,
+        "logo_on_top": false,
         "payment_express_receipt": true,
         "payment_express_tip": false,
         "regular_tip": true,
@@ -43,7 +43,7 @@
         "hold_id_qr_local": false,
         "show_orders_dayclose": false,
         "show_sold_items_dayclose": true,
-        "show_qr_payment": false,
+        "show_qr_payment": true,
         "separate_tip_receipts": true
     }
 
