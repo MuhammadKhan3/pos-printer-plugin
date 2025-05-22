@@ -44,7 +44,7 @@
         "show_orders_dayclose": false,
         "show_sold_items_dayclose": true,
         "show_qr_payment": true,
-        "separate_tip_receipts": true
+        "separate_tip_receipts": false
     }
 
 ]

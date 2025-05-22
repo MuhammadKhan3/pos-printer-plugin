@@ -213,7 +213,8 @@ function print_handler(printer_conn, order_data, date_time, template_style) {
     ) {
       printer_conn
         .align("ct")
-        .size(1, 1)
+        .font('b')
+        .size(1, 2)
         .style("b")
         .text(order_data.business_info.name)
         .text(order_data.business_info.address);
@@ -274,33 +275,89 @@ function print_handler(printer_conn, order_data, date_time, template_style) {
         (order_data.type == "cash" || order_data.type == "Cash") &&
         order_data.online == true
       ) {
-        temp_order_id_split = "NOT PAID";
+        temp_order_id_split = "Not Paid";
       } else if (temp_order_id_split.length == 2) {
         if (order_data.type == "credit" && order_data.payment_type != "split") {
-          temp_order_id_split = "Paid by Card";
+          temp_order_id_split = "Card";
           payment_method_main = 'card';
         } else {
-          temp_order_id_split = "Paid by Cash";
+          temp_order_id_split = "Cash";
         }
       } else {
         temp_order_id_split = "NOT PAID";
       }
-      printer_conn.style('NORMAL');
-      printer_conn.print('Order: ');
 
-      // Print order ID in bold
+      if (order_data.staff_name) {
+        printer_conn.
+          tableCustom([{
+            width: 0.50,
+            align: 'LEFT',
+            text: `Server: ${order_data.staff_name}`
+          }])
+      }
 
-      if (order_data.payment_info.order_id) {
-        printer_conn.style('B');
-        printer_conn.print('#' + order_data.payment_info.order_id);
-
+      if (order_data.payment_info.order_id && order_data.payment_info.order_date) {
+        printer_conn
+          .tableCustom([{
+            width: 0.50,
+            align: 'LEFT',
+            text: `Order: #${order_data.payment_info.order_id}`
+          }, {
+            align: 'RIGHT',
+            text: `${formatDate(order_data.payment_info.order_date)}`
+          }])
       }
 
 
 
+      if (order_data.staff_name && order_data.payment_info.order_time) {
+        printer_conn.
+          tableCustom([{
+            width: 0.50,
+            align: 'LEFT',
+            text: `Paid: ${temp_order_id_split}`
+          }, {
+            align: 'RIGHT',
+            text: formatTime(order_data.payment_info.order_time)
+          }])
+      }
+
+      if (order_data.customer_name && order_data.instructions.orderTypeLabel.toLowerCase() === "eat in") {
+        printer_conn.
+          tableCustom([{
+            width: 0.50,
+            align: 'LEFT',
+            text: `${order_data.customer_name}`
+          }, {
+            align: 'RIGHT',
+            text: `Table: ${order_data.table_name}`
+          }])
+      } else if (order_data.customer_name) {
+        printer_conn.
+          tableCustom([{
+            width: 0.50,
+            align: 'LEFT',
+            text: `${order_data.customer_name}`
+          }])
+
+      }
+
+      // printer_conn.style('NORMAL');
+      // printer_conn.print('Order: ');
+
+      // // Print order ID in bold
+
+      // if (order_data.payment_info.order_id) {
+      //   printer_conn.style('B');
+      //   printer_conn.print();
+
+      // }
+
+
+
       // Reset style and print rest of the line
-      printer_conn.style('B');
-      printer_conn.println(' (' + temp_order_id_split + ')');
+      // printer_conn.style('B');
+      // printer_conn.println(' (' + temp_order_id_split + ')');
     }
 
 
@@ -320,20 +377,23 @@ function print_handler(printer_conn, order_data, date_time, template_style) {
 
         printer_conn.style('B');
         printer_conn.println(order_data.customer_phone);
-      
+
       }
     }
 
-    if (order_data.payment_info.order_date) {
 
-      printer_conn.style('NORMAL');
-      printer_conn.print('Open Ticket Time: ');
 
-      // Print order ID in bold
+    // if (order_data.payment_info.order_date) {
 
-      printer_conn.style('B');
-      printer_conn.println(formatDate(order_data.payment_info.order_date) + " " + formatTime(order_data.payment_info.order_time));
-    }
+    //   printer_conn.style('NORMAL');
+    //   printer_conn.print('Open Ticket Time: ');
+
+    //   // Print order ID in bold
+
+    //   printer_conn.style('B');
+    //   printer_conn.println(formatDate(order_data.payment_info.order_date) + " " + formatTime(order_data.payment_info.order_time));
+    // }
+
     if (gift_card_amount) {
       printer_conn.style('NORMAL');
       printer_conn.print('Gift Card: ');
@@ -390,12 +450,12 @@ function print_handler(printer_conn, order_data, date_time, template_style) {
     var subtotal = 0;
     var nicotine_tax = 0;
     var discountTitle = "Discount";
-    console.log(order_data.instructions.discount_name != undefined ,order_data.instructions.discount_name != "undefined",order_data.instructions.discount_name ,order_data.instructions.discount_name )
+    console.log(order_data.instructions.discount_name != undefined, order_data.instructions.discount_name != "undefined", order_data.instructions.discount_name, order_data.instructions.discount_name)
     if (
-        order_data.instructions.discount_name != undefined &&
-        order_data.instructions.discount_name != "undefined"
+      order_data.instructions.discount_name != undefined &&
+      order_data.instructions.discount_name != "undefined"
     ) {
-        discountTitle = order_data.instructions.discount_name;
+      discountTitle = order_data.instructions.discount_name;
     }
 
     order_data.order_info.forEach(function (order_info) {
@@ -465,13 +525,13 @@ function print_handler(printer_conn, order_data, date_time, template_style) {
               {
                 text: `${order_info?.quantity} X ${(order_info?.menuItem).trim()}`,
                 align: "LEFT",
-                width: "0.65",
+                width: 0.60,
               },
-              { text: `${currency_symbol}${order_info?.totalPrice}`, width: 0.15, align: 'LEFT', width: 0.15 },
+              { text: `${currency_symbol}${order_info?.totalPrice}`, width: 0.15, align: 'RIGHT' },
               {
                 text: `${currency_symbol}${order_info?.card_totalPrice}`,
                 align: "RIGHT",
-                width: 0.15,
+                width: 0.22,
               },
             ])
 
@@ -507,7 +567,7 @@ function print_handler(printer_conn, order_data, date_time, template_style) {
                 {
                   text: "(" + extras.heading.trim() + ")",
                   align: "LEFT",
-                  width: "0.40",
+                  width: 0.60,
                 },
                 //{ text: "", align: "RIGHT", width: "0.05" },
                 //{ text: "", align: "RIGHT", width: "0.25" },
@@ -532,11 +592,11 @@ function print_handler(printer_conn, order_data, date_time, template_style) {
               } else {
                 price_column_text = "-";
               }
-              console.log(options.total != "" ,options.total >= 0,options.total,options.card_total)
+              console.log(options.total != "", options.total >= 0, options.total, options.card_total)
               if (options.total !== "" && options.total >= 0) {
                 options.total =
                   Number(options.total) * Number(order_info.quantity);
-                options.total = "(" + handleUndefined(options.total) + " incl)";
+                options.total = `${currency_symbol}${handleUndefined(options.total)}`;
               } else {
                 options.total = 0;
               }
@@ -548,8 +608,7 @@ function print_handler(printer_conn, order_data, date_time, template_style) {
               ) {
                 options.card_total =
                   Number(options?.card_total) * Number(order_info?.quantity);
-                options.card_total =
-                  "(" + handleUndefined(options?.card_total) + " incl)";
+                options.card_total = `${currency_symbol}${handleUndefined(options?.card_total)}`;
               } else {
                 options.card_total = 0;
               }
@@ -566,10 +625,10 @@ function print_handler(printer_conn, order_data, date_time, template_style) {
                     {
                       text: ` =>${order_info.quantity} X ${options.name.trim()}`,
                       align: "LEFT",
-                      width: 0.48,
+                      width: 0.60,
                     },
-                    {text: options.total, align: "RIGHT", width: 0.25},
-                    {text: options.card_total, align: "RIGHT", width: 0.25},
+                    { text: options.total, align: "RIGHT", width: 0.15 },
+                    { text: options.card_total, align: "RIGHT", width: 0.22 },
 
                   ]);
               } else {
@@ -596,7 +655,7 @@ function print_handler(printer_conn, order_data, date_time, template_style) {
           show_item_instructions_on_check == true
         ) {
           printer_conn
-            .size(1,1)
+            .size(1, 1)
             .style("b")
             .text("Instructions " + order_info.itemInstructions);
         }
@@ -612,21 +671,23 @@ function print_handler(printer_conn, order_data, date_time, template_style) {
         order_data?.instructions?.business_pricing_type === "double"
       ) {
 
-                printer_conn
+        printer_conn
           .size(1, 1)
           .tableCustom([
-            { text:" "+discountTitle, align: "LEFT", width: 0.65 },
-            { text: `${currency_symbol}${handleUndefined(
+            { text: " " + discountTitle, align: "LEFT", width: 0.60 },
+            {
+              text: `${currency_symbol}${handleUndefined(
                 order_info?.inStockDiscount
-              )}`, width: 0.15 },
+              )}`, width: 0.15, align: 'RIGHT'
+            },
             {
               text: `${currency_symbol}${handleUndefined(order_info?.card_inStockDiscount)}`,
               align: "RIGHT",
-              width: 0.15,
+              width: 0.22,
 
             },
           ]);
-       } else if (Number(order_info?.card_inStockDiscount) > 0) {
+      } else if (Number(order_info?.card_inStockDiscount) > 0) {
         printer_conn
           .style("b")
           .size(1, 1)
@@ -648,21 +709,23 @@ function print_handler(printer_conn, order_data, date_time, template_style) {
         order_data?.instructions?.business_pricing_type === "double"
       ) {
 
-              printer_conn
-        .size(1, 1)
-        .style("r")
-        .tableCustom([
-          { text: " Discount", align: "LEFT", width: 0.65 },
-          { text: `${currency_symbol}${handleUndefined(
+        printer_conn
+          .size(1, 1)
+          .style("r")
+          .tableCustom([
+            { text: " Discount", align: "LEFT", width: 0.60 },
+            {
+              text: `${currency_symbol}${handleUndefined(
                 order_info?.calculated_discount ||
                 order_info?.CalculatedDiscount
-              )}`, align: 'LEFT', width: 0.15 },
-          {
-            text: `${currency_symbol}${handleUndefined(order_info?.card_CalculatedDiscount)}`,
-            align: "RIGHT",
-            width: 0.15
-          }
-        ]);
+              )}`, align: 'RIGHT', width: 0.15
+            },
+            {
+              text: `${currency_symbol}${handleUndefined(order_info?.card_CalculatedDiscount)}`,
+              align: "RIGHT",
+              width: 0.22
+            }
+          ]);
 
       } else if (Number(order_info?.card_CalculatedDiscount) > 0) {
         printer_conn
@@ -693,19 +756,17 @@ function print_handler(printer_conn, order_data, date_time, template_style) {
                 : "Other Tax"
                 }`,
               align: "LEFT",
-              width: "0.45",
+              width: 0.60,
             },
-            /* {
-               text: "",
-               align: "LEFT",
-               width: "0.10",
-             },*/
             {
-              text: `${handleUndefined(
-                order_info?.additionalTax
-              )} | ${handleUndefined(order_info?.card_additionalTax)}`,
-              align: "CENTER",
-              width: "0.55",
+              text: `${handleUndefined(order_info?.additionalTax)}`,
+              align: 'RIGHT',
+              width: 0.15
+            },
+            {
+              text: `${handleUndefined(order_info?.card_additionalTax)}`,
+              align: "RIGHT",
+              width: 0.22,
             },
           ]);
         // printer_conn
@@ -724,7 +785,7 @@ function print_handler(printer_conn, order_data, date_time, template_style) {
                 : "Other Tax"
                 }`,
               align: "LEFT",
-              width: 0.6,
+              width: 0.60,
             },
             { text: "", align: "RIGHT", width: 0.15 },
             {
@@ -745,12 +806,12 @@ function print_handler(printer_conn, order_data, date_time, template_style) {
         .size(1, 1)
         .style("b")
         .tableCustom([
-          { text: "Subtotal    ", align: "LEFT", width: 0.65 },
-          { text: `${currency_symbol}${handleUndefined(order_data?.instructions?.subTotal)}`, align: 'LEFT', width: 0.15 },
+          { text: "Subtotal    ", align: "LEFT", width: 0.60 },
+          { text: `${currency_symbol}${handleUndefined(order_data?.instructions?.subTotal)}`, align: 'RIGHT', width: 0.15 },
           {
             text: `${currency_symbol}${handleUndefined(order_data?.instructions?.card_subTotal)}`,
             align: "RIGHT",
-            width: 0.15
+            width: 0.22
           }
         ]);
     } else {
@@ -781,9 +842,19 @@ function print_handler(printer_conn, order_data, date_time, template_style) {
       order_data.instructions.BusinessDiscount &&
       calculateBusinessDiscount(order_data) > 0
     ) {
-      printer_conn.text(
-        "Business Discount: -" + calculateBusinessDiscount(order_data)
-      );
+      printer_conn
+        .size(1, 1)
+        .style("b")
+        .tableCustom([
+          { text: "Business Discount    ", align: "LEFT", width: 0.60 },
+          { text: " -" + calculateBusinessDiscount(order_data), align: 'RIGHT', width: 0.15 },
+          {
+            text: " -" + calculateBusinessDiscount(order_data),
+            align: "RIGHT",
+            width: 0.22
+          }
+        ]);
+
     }
 
     if (
@@ -797,16 +868,16 @@ function print_handler(printer_conn, order_data, date_time, template_style) {
         .style("r")
         .style("b")
         .tableCustom([
-          { text: "Discount", align: "LEFT", width: 0.65 },
+          { text: "Discount", align: "LEFT", width: 0.60 },
           {
             text: `${currency_symbol}${handleUndefined(order_data.payment_info.discount)}`,
-            align: "CENTER",
+            align: "RIGHT",
             width: 0.15,
           },
           {
             text: handleUndefined(order_data.payment_info.discount),
             align: "RIGHT",
-            width: 0.15,
+            width: 0.22,
           },
         ]);
     } else if (
@@ -819,7 +890,7 @@ function print_handler(printer_conn, order_data, date_time, template_style) {
         .style("r")
         .style("b")
         .tableCustom([
-          { text: "Discount", align: "LEFT", width: 0.65},
+          { text: "Discount", align: "LEFT", width: 0.65 },
           {
             text: handleUndefined(order_data.payment_info.discount),
             align: "RIGHT",
@@ -833,25 +904,25 @@ function print_handler(printer_conn, order_data, date_time, template_style) {
       order_data.instructions.global_discount != "0.00" &&
       order_data.instructions.global_discount != "0"
     ) {
-    
-      
+
+
       if (order_data?.instructions?.business_pricing_type === "double") {
         printer_conn
           .size(1, 1)
           .style("r")
           .style("b")
           .tableCustom([
-            { text: discountTitle, align: "LEFT", width: 0.65 },
-            {  
+            { text: discountTitle, align: "LEFT", width: 0.60 },
+            {
               text: `-${currency_symbol}${handleUndefined(order_data?.instructions?.global_discount)}`,
-              align: "LEFT",
+              align: "RIGHT",
               width: 0.15,
             },
 
             {
-              text:`-${currency_symbol}${handleUndefined(order_data?.instructions?.card_global_discount)}`,
+              text: `-${currency_symbol}${handleUndefined(order_data?.instructions?.card_global_discount)}`,
               align: "RIGHT",
-              width: 0.15,
+              width: 0.22,
             },
           ]);
       } else {
@@ -860,7 +931,7 @@ function print_handler(printer_conn, order_data, date_time, template_style) {
           .style("r")
           .style("b")
           .tableCustom([
-            { text: discountTitle , align: "LEFT", width: 0.65 },
+            { text: discountTitle, align: "LEFT", width: 0.65 },
             {
               text:
                 "-" +
@@ -881,12 +952,12 @@ function print_handler(printer_conn, order_data, date_time, template_style) {
         .size(1, 1)
         .style("b")
         .tableCustom([
-          { text: "Item Discount    ", align: "LEFT", width: 0.65 },
-          { text: `-${currency_symbol}${handleUndefined(order_data?.instructions?.item_discount || order_data?.instructions?.calculatedDiscount)}`, align: 'LEFT', width: 0.15 },
+          { text: "Item Discount    ", align: "LEFT", width: 0.60 },
+          { text: `-${currency_symbol}${handleUndefined(order_data?.instructions?.item_discount || order_data?.instructions?.calculatedDiscount)}`, align: 'RIGHT', width: 0.15 },
           {
             text: `-${currency_symbol}${handleUndefined(order_data?.instructions?.card_item_discount)}`,
             align: "RIGHT",
-            width: 0.15
+            width: 0.22
           }
         ]);
 
@@ -967,16 +1038,16 @@ function print_handler(printer_conn, order_data, date_time, template_style) {
         .style("r")
         .style("b")
         .tableCustom([
-          { text: "Delivery Fee    ", align: "LEFT", width: 0.65 },
+          { text: "Delivery Fee    ", align: "LEFT", width: 0.60 },
           {
             text: `${currency_symbol}${handleUndefined(order_data.instructions.delivery_fee)}`,
-            align: "LEFT",
+            align: "RIGHT",
             width: 0.15,
           },
           {
             text: `${currency_symbol}${handleUndefined(order_data.instructions.card_delivery_fee)}`,
             align: "RIGHT",
-            width: 0.15,
+            width: 0.22,
           },
         ]);
     } else if (
@@ -990,7 +1061,7 @@ function print_handler(printer_conn, order_data, date_time, template_style) {
         .tableCustom([
           { text: "Delivery Fee", align: "LEFT", width: 0.65 },
           {
-            text:handleUndefined(order_data.instructions.card_delivery_fee),
+            text: handleUndefined(order_data.instructions.card_delivery_fee),
             align: "RIGHT",
             width: 0.30,
           },
@@ -1008,7 +1079,7 @@ function print_handler(printer_conn, order_data, date_time, template_style) {
           {
             text: handleUndefined(order_data.instructions.venue_fee),
             align: "RIGHT",
-            width: 0.2,
+            width: 0.22,
           },
         ]);
     }
@@ -1026,7 +1097,7 @@ function print_handler(printer_conn, order_data, date_time, template_style) {
         .style("r")
         .style("b")
         .tableCustom([
-          { text: "Service Charge: ", align: "LEFT", width: 0.65 },
+          { text: "Service Charge ", align: "LEFT", width: 0.60 },
           //  { text: "", align: "RIGHT", width: "0.05" },
           /*{
             text: handleUndefined(order_data.instructions.serviceCharge),
@@ -1035,13 +1106,13 @@ function print_handler(printer_conn, order_data, date_time, template_style) {
           },*/
           {
             text: `${currency_symbol}${handleUndefined(order_data.instructions.serviceCharge)}`,
-            align: "LEFT",
+            align: "RIGHT",
             width: 0.15,
           },
           {
-            text:  `${currency_symbol}${handleUndefined(order_data?.instructions?.card_serviceCharge)}`,
+            text: `${currency_symbol}${handleUndefined(order_data?.instructions?.card_serviceCharge)}`,
             align: "RIGHT",
-            width: 0.15,
+            width: 0.22,
           },
         ]);
 
@@ -1081,7 +1152,7 @@ function print_handler(printer_conn, order_data, date_time, template_style) {
         .style("r")
         .style("b")
         .tableCustom([
-          { text: "Other Tax:", align: "LEFT", width: 0.65 },
+          { text: "Other Tax:", align: "LEFT", width: 0.60 },
           //  { text: "", align: "RIGHT", width: "0.05" },
           // {text: "", align: "RIGHT", width: "0.25"},
           /* {
@@ -1091,13 +1162,13 @@ function print_handler(printer_conn, order_data, date_time, template_style) {
            },*/
           {
             text: handleUndefined(nicotine_tax),
-            align: "LEFT",
+            align: "RIGHT",
             width: 0.15,
           },
           {
-            text:  `handleUndefined(order_data.instructions.card_additionalTax)`,
+            text: `${handleUndefined(order_data.instructions.card_additionalTax)}`,
             align: "RIGHT",
-            width: 0.15,
+            width: 0.22,
           },
         ]);
     } else if (Number(nicotine_tax) > 0) {
@@ -1131,7 +1202,7 @@ function print_handler(printer_conn, order_data, date_time, template_style) {
           .style("r")
           .style("b")
           .tableCustom([
-            { text: "Sales Tax:", align: "LEFT", width: 0.65 },
+            { text: "Sales Tax:", align: "LEFT", width: 0.60 },
             //  { text: "", align: "RIGHT", width: "0.05" },
             // {text: "", align: "RIGHT", width: "0.25"},
             /* {
@@ -1141,13 +1212,13 @@ function print_handler(printer_conn, order_data, date_time, template_style) {
              },*/
             {
               text: `${currency_symbol}${handleUndefined(order_data.instructions.tax)}`,
-              align: "LEFT",
+              align: "RIGHT",
               width: 0.15,
             },
             {
-              text:  `${currency_symbol}${handleUndefined(order_data.instructions.card_tax)}`,
+              text: `${currency_symbol}${handleUndefined(order_data.instructions.card_tax)}`,
               align: "RIGHT",
-              width: 0.15,
+              width: 0.22,
             },
           ]);
 
@@ -1168,12 +1239,12 @@ function print_handler(printer_conn, order_data, date_time, template_style) {
           .size(1, 1)
           .style("b")
           .tableCustom([
-            { text: "Tax    ", align: "LEFT", width: 0.65 },
-            { text: `${currency_symbol}${handleUndefined(order_data.instructions.tax)}`, width: 0.15 ,align:'LEFT'},
+            { text: "Tax    ", align: "LEFT", width: 0.60 },
+            { text: `${currency_symbol}${handleUndefined(order_data.instructions.tax)}`, width: 0.15, align: 'RIGHT' },
             {
               text: `${currency_symbol}${handleUndefined(order_data.instructions.card_tax)}`,
               align: "RIGHT",
-              width: 0.15,
+              width: 0.22,
 
             },
           ]);
@@ -1203,7 +1274,7 @@ function print_handler(printer_conn, order_data, date_time, template_style) {
         .style("r")
         .style("b")
         .tableCustom([
-          { text: "Giftcard", align: "LEFT", width: 0.65},
+          { text: "Giftcard", align: "LEFT", width: 0.60 },
           // { text: "", align: "RIGHT", width: "0.05" },
           // {text: "", align: "RIGHT", width: "0.05"},
           /*  {
@@ -1213,13 +1284,13 @@ function print_handler(printer_conn, order_data, date_time, template_style) {
             },*/
           {
             text: `-${currency_symbol}${handleUndefined(gift_card_amount)}`,
-            align: "LEFT",
+            align: "RIGHT",
             width: 0.15,
           },
           {
-            text:  `-${currency_symbol}${handleUndefined(gift_card_amount)}`,
+            text: `-${currency_symbol}${handleUndefined(gift_card_amount)}`,
             align: "RIGHT",
-            width: 0.15,
+            width: 0.22,
           },
         ]);
     } else if (gift_card_amount) {
@@ -1250,7 +1321,7 @@ function print_handler(printer_conn, order_data, date_time, template_style) {
         .style("r")
         .style("b")
         .tableCustom([
-          { text: "Service Fee:", align: "LEFT", width: 0.65 },
+          { text: "Service Fee", align: "LEFT", width: 0.60 },
           {
             text: '$0.00',
             align: "LEFT",
@@ -1259,7 +1330,7 @@ function print_handler(printer_conn, order_data, date_time, template_style) {
           {
             text: handleUndefined(order_data.instructions.auto_gratuity_amount),
             align: "RIGHT",
-            width: 0.15,
+            width: 0.22,
           },
         ]);
 
@@ -1300,7 +1371,7 @@ function print_handler(printer_conn, order_data, date_time, template_style) {
         .style("r")
         .style("b")
         .tableCustom([
-          { text: "Gratuity", align: "LEFT", width: 0.65 },
+          { text: "Gratuity", align: "LEFT", width: 0.60 },
           //  { text: "", align: "RIGHT", width: "0.05" },
           // {text: "", align: "RIGHT", width: "0.05"},
           /* {
@@ -1310,13 +1381,13 @@ function print_handler(printer_conn, order_data, date_time, template_style) {
            },*/
           {
             text: `${currency_symbol}${handleUndefined(order_data.instructions.Tip)}`,
-            align: "LEFT",
+            align: "RIGHT",
             width: 0.15,
           },
           {
-            text:  `${currency_symbol}${handleUndefined(order_data.instructions.card_Tip)}`,
+            text: `${currency_symbol}${handleUndefined(order_data.instructions.card_Tip)}`,
             align: "RIGHT",
-            width: 0.15,
+            width: 0.22,
           },
         ]);
 
@@ -1337,10 +1408,10 @@ function print_handler(printer_conn, order_data, date_time, template_style) {
         .style("r")
         .style("b")
         .tableCustom([
-          { text: addL_text + "Gratuity", align: "LEFT", width: 0.65 },
+          { text: addL_text + "Gratuity", align: "LEFT", width: 0.60 },
           {
             text: `${currency_symbol}${handleUndefined(order_data.instructions.Tip)}`,
-            align: "LEFT",
+            align: "RIGHT",
             width: 0.15,
           },
           {
@@ -1361,7 +1432,7 @@ function print_handler(printer_conn, order_data, date_time, template_style) {
         .style("r")
         .style("b")
         .tableCustom([
-          { text: "Tech. Liability", align: "LEFT", width: 0.65 },
+          { text: "Tech. Liability", align: "LEFT", width: 0.60 },
           //  { text: "", align: "RIGHT", width: "0.05" },
           // {text: "", align: "RIGHT", width: "0.05"},
           /* {
@@ -1371,13 +1442,13 @@ function print_handler(printer_conn, order_data, date_time, template_style) {
            },*/
           {
             text: `${currency_symbol}${handleUndefined(0)}`,
-            align: "LEFT",
+            align: "RIGHT",
             width: 0.15,
           },
           {
-            text:  `${currency_symbol}${handleUndefined(order_data.instructions.technology_liability)}`,
+            text: `${currency_symbol}${handleUndefined(order_data.instructions.technology_liability)}`,
             align: "RIGHT",
-            width: "0.50",
+            width: 0.22,
           },
         ]);
 
@@ -1412,11 +1483,16 @@ function print_handler(printer_conn, order_data, date_time, template_style) {
 
     if (order_data.instructions.platformFeeAmount) {
       printer_conn.tableCustom([
-        { text: "Platform Fee ", align: "LEFT", width: 0.65 },
+        { text: "Platform Fee ", align: "LEFT", width: 0.60 },
         {
           text: handleUndefined(order_data.instructions.platformFeeAmount),
-          align: "LEFT",
-          width: 0.30,
+          align: "RIGHT",
+          width: 0.15,
+        },
+        {
+          text: handleUndefined(order_data.instructions.platformFeeAmount),
+          align: "RIGHT",
+          width: 0.22,
         },
       ]);
     }
@@ -1437,8 +1513,10 @@ function print_handler(printer_conn, order_data, date_time, template_style) {
           .style("r")
           .style("b")
           .tableCustom([
-            { text: "Total", align: "LEFT", width: 0.65 },
-            { text: "-" + currency_symbol + handleUndefined(order_data.total), align: "LEFT", width: 0.30 },
+            { text: "Total", align: "LEFT", width: 0.60 },
+            { text: "-" + currency_symbol + handleUndefined(order_data.total), align: "RIGHT", width: 0.15 },
+            { text: "-" + currency_symbol + handleUndefined(order_data.total), align: "RIGHT", width: 0.22 },
+
           ]);
       } else {
         printer_conn
@@ -1464,15 +1542,15 @@ function print_handler(printer_conn, order_data, date_time, template_style) {
           .size(1, 1)
           .style("b")
           .tableCustom([
-            { text: "Total    ", align:"Left", width: "0.65", style: null },
+            { text: "Total    ", align: "Left", width: 0.60, style: null },
             {
               text: currency_symbol +
-                handleUndefined(order_data.instructions.cash_Total), align: 'LEFT', width: 0.15, style: "B"
+                handleUndefined(order_data.instructions.cash_Total), align: 'RIGHT', width: 0.15, style: "B"
             },
             {
               text: currency_symbol + handleUndefined(order_data.instructions.card_Total),
               align: "RIGHT",
-              width: 0.15,
+              width: 0.22,
               style: "B"
             },
           ]);
@@ -1532,12 +1610,13 @@ function print_handler(printer_conn, order_data, date_time, template_style) {
       printer_conn
         .style("b")
         .tableCustom([
-          { text: "Change Due    ", align: "LEFT", width: 0.65 },
+          { text: "Change Due    ", align: "LEFT", width: 0.60 },
           {
             text: currency_symbol + handleUndefined(order_data.balance),
-            align: "LEFT",
-            width: 0.30,
+            align: "RIGHT",
+            width: 0.15,
           },
+          
         ]);
 
     } else if (order_data.balance && order_data.type == "cash") {
@@ -1758,7 +1837,8 @@ function print_handler(printer_conn, order_data, date_time, template_style) {
           printer_conn,
           Number(subtotal),
           order_data.instructions.tipPercentageBtn,
-          order_data?.instructions.tipCashBtn
+          order_data?.instructions.tipCashBtn,
+          order_data.instructions.cash_Total
         );
       }
     }
@@ -1958,7 +2038,7 @@ function print_handler(printer_conn, order_data, date_time, template_style) {
         .size(1, 1);
     } else {
       printer_conn
-        .align("ct")
+        .align("lt")
         // .text(line1)
         .text("");
     }
@@ -1968,11 +2048,8 @@ function print_handler(printer_conn, order_data, date_time, template_style) {
 
       if (order_data.staff_name) {
         printer_conn.text(
-          "Staff Name: " +
-          order_data.staff_name +
-          " (ID:" +
-          order_data.staff_id +
-          ")"
+          "Server: " +
+          order_data.staff_name
         );
       }
 
@@ -2010,14 +2087,15 @@ function print_handler(printer_conn, order_data, date_time, template_style) {
       printer_conn.text("Station: " + order_data.pos_station_name);
     }
 
-    if(order_data.payment_info.order_id!==undefined && order_data.payment_info.order_id!=="" && order_data.payment_info.order_id!=="undefined" && order_data.payment_info.order_id!==null && order_data.payment_info.order_id!=="null"){
-     printer_conn
-      .size(1, 1)
-      .text("Ticket Closed date-time: " + date_time.date + " " + date_time.time);
-    }else{
-           printer_conn
-      .size(1, 1)
-      .text("Ticket Print date-time: " + date_time.date + " " + date_time.time);
+    if (order_data.payment_info.order_id !== undefined && order_data.payment_info.order_id !== "" && order_data.payment_info.order_id !== "undefined" && order_data.payment_info.order_id !== null && order_data.payment_info.order_id !== "null") {
+      printer_conn
+        .size(1, 1)
+        .text("Ticket Closed date-time: " + date_time.date + " " + date_time.time);
+    } else {
+      printer_conn
+        .align('lt')
+        .size(1, 1)
+        .text("Ticket Print date-time: " + date_time.date + " " + date_time.time);
 
     }
 
@@ -2099,43 +2177,87 @@ function calculateBusinessDiscount(order_data) {
   return BusinessDiscount;
 }
 
-function printTipTemplate(printer_conn, subtotal = 0, tipPercentage, tipCash) {
-  printer_conn.align("ct").size(1, 1).text("Add Gratuity").size(1, 1);
+function printTipTemplate(printer_conn, subtotal = 0, tipPercentage, tipCash, total) {
+  printer_conn.align("ct").size(1, 1).style('b').text("Suggested Tip Amount").size(1, 1);
   if (subtotal != 0) {
-    printer_conn.align("ct");
 
     if (tipPercentage?.length > 0 && tipCash?.length > 0) {
+      const columns = [
+        { width: 0.33, align: 'LEFT' },
+        { width: 0.33, align: 'CENTER' },
+        { width: 0.33, align: 'RIGHT' } // Sum should be ~1.0 (0.33 + 0.33 + 0.34)
+      ];
+      printer_conn
+        .align("lt")
+        .size(1, 1)
+        .style("r")
+        .style("b")
+        .tableCustom([
+          { ...columns[0], text: "Tip" ,style:'B'},
+          { ...columns[1], text: "Tip Amount",style:'B' },
+          { ...columns[2], text: "Total",style:'B'}
+        ])
+        .style('normal')
       tipPercentage.forEach((percentage, index) => {
-        printer_conn.text(
-          `${percentage}% (` +
-          currency_symbol +
-          (Number(subtotal.toFixed(2)) * (percentage / 100)).toFixed(2) +
-          ")"
-        );
+        const tipAmount = Number(total) * (percentage / 100);
+        const totalAmount = Number(total) + tipAmount;
+
+        printer_conn.tableCustom([
+          {
+            ...columns[0],
+            text: `${percentage}%`,
+          },
+          {
+            ...columns[1],
+            text: `${currency_symbol}${tipAmount.toFixed(2)}`
+          },
+          {
+            ...columns[2],
+            text: `${currency_symbol}${totalAmount.toFixed(2)}`
+          }
+        ]);
+
+        // printer_conn.text(
+        //   `${percentage}% (` +
+        //   currency_symbol +
+        //   (Number(subtotal.toFixed(2)) * (percentage / 100)).toFixed(2) +
+        //   ")"
+        // );
       });
     } else {
-      printer_conn
-        .text(
-          "18% (" +
-          currency_symbol +
-          (Number(subtotal.toFixed(2)) * 0.18).toFixed(2) +
-          ")"
-        )
-        .text(
-          "20% (" +
-          currency_symbol +
-          (Number(subtotal.toFixed(2)) * 0.2).toFixed(2) +
-          ")"
-        )
-        .text(
-          "25% (" +
-          currency_symbol +
-          (Number(subtotal.toFixed(2)) * 0.25).toFixed(2) +
-          ")"
-        );
+      printer_conn.table(["Tip", "Tip Amount", "Total"])
+        .tableCustom([
+          {
+            align: "LEFT", width: 0.33, style: 'B',
+            text: '18%'
+          },
+          { text: currency_symbol + (Number(subtotal.toFixed(2)) * 0.18).toFixed(2), align: "CENTER", width: 0.33 },
+          { text: currency_symbol + ((Number(subtotal.toFixed(2)) * 0.18).toFixed(2) + order_data.instructions.cash_Total), align: "RIGHT", width: 0.33 },
+        ])
+
+      // printer_conn
+      //   .text(
+      //     "18% (" +
+      //     currency_symbol +
+      //     (Number(subtotal.toFixed(2)) * 0.18).toFixed(2) +
+      //     ")"
+      //   )
+      //   .text(
+      //     "20% (" +
+      //     currency_symbol +
+      //     (Number(subtotal.toFixed(2)) * 0.2).toFixed(2) +
+      //     ")"
+      //   )
+      //   .text(
+      //     "25% (" +
+      //     currency_symbol +
+      //     (Number(subtotal.toFixed(2)) * 0.25).toFixed(2) +
+      //     ")"
+      //   );
     }
 
     printer_conn
+      .align('ct')
       .text("")
       .text("Other:  " + currency_symbol + "____________")
       .text("")
@@ -2157,7 +2279,7 @@ function giftCardTemplate(printer_conn, order_data) {
     // .text("8 frankie lane north bablyon NE, USA")
     // .text("Phone: 6316124834")
 
-    .text("GIFTCARD STATS");
+    .text("GIFTCARD BALANCE");
 
   // printer_conn.font('a')
   // .align('ct')
@@ -2187,7 +2309,7 @@ function giftCardTemplate(printer_conn, order_data) {
     .style("b")
     .tableCustom([
       { text: "Giftcard", align: "LEFT", width: 0.65 },
-      { text: "Amount", align: "RIGHT", width: 0.30 },
+      { text: "Balance", align: "RIGHT", width: 0.30 },
 
       // { text: "image", align:"RIGHT", width:0.20 },
     ]);
@@ -2203,7 +2325,7 @@ function giftCardTemplate(printer_conn, order_data) {
         align: "LEFT",
         width: 0.65,
       },
-      { text: order_data.giftcard[i].amount, align: "RIGHT", width: 0.30 },
+      { text: `${currency_symbol}${order_data.giftcard[i].amount}`, align: "RIGHT", width: 0.30 },
       // { text: '', align:"RIGHT", width:0.20 }
     ]);
   }
@@ -2387,4 +2509,10 @@ function loadImageAsync(path) {
       resolve(image);
     });
   });
+}
+
+function tenaryConditionHandler(conditions, firstValue, secondValue) {
+  const { conditionOne, conditionTwo } = conditions;
+  const array = conditionOne && conditionTwo ? firstValue : secondValue;
+  return array
 }

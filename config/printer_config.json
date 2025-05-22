@@ -8,7 +8,7 @@
   "multi_kitchen_printer_template_style": "1",
   "offline_server_ip": "127.0.0.1",
   "printer_type": "epson",
-  "printer_conn_type": "network",
+  "printer_conn_type": "usb",
   "counter_printer_ips": [
     {
       "id": 1,

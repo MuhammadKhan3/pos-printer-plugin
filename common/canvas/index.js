@@ -21,7 +21,7 @@ function generateCanvas(order_data) {
     ctx.textBaseline = "middle";
     ctx.fillText(
       order_data.instructions.orderTypeLabel.toUpperCase(),
-      orderTypeHorizontalPosition,
+      220,
       30
     ); // Centered vertically in 100px
     if (order_data.customer_name) {
